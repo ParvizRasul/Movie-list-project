@@ -1,28 +1,26 @@
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
+.bg-bone-white {
+  background-color: #f9f6ee;
 }
 
-.pulse {
-  animation: pulse 2s infinite;
+.neon-shadow {
+  box-shadow: 0 0 3rem 0.1rem rgba(147, 147, 255, 0.464);
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.custom-badge-position {
+  top: 0.3rem;
+  left: 0.7rem;
+  min-width: 3rem;
+  max-width: 4rem;
+}
+
+#submit-btn {
+  height: 3.5rem;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
