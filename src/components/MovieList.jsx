@@ -1,6 +1,6 @@
 import MovieCard from './MovieCard';
 
-function MovieList({ movies, editMovie, removeMovie }) {
+function MovieList({ movies, editMovie, fetchMovies }) {
   return movies.length < 1 ? (
     <div className="text-center mt-5">No movies yet</div>
   ) : (
@@ -10,7 +10,7 @@ function MovieList({ movies, editMovie, removeMovie }) {
           key={movie.id}
           movie={movie}
           editMovie={editMovie}
-          removeMovie={removeMovie}
+          fetchMovies={fetchMovies}
         />
       ))}
     </div>

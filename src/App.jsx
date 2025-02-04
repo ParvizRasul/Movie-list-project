@@ -6,8 +6,10 @@ import ThemeToggler from './components/ThemeToggler';
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const USER_ID = 7;
+  
+  const USER_ID = import.meta.env.VITE_USER_ID
 
+  // new comment
   // we need to get the data from api and render on the screen
   const fetchMovies = async () => {
     try {
@@ -28,12 +30,6 @@ function App() {
   // set up the state for the editingMovie
   const [editingMovie, setEditingMovie] = useState(null);
 
-  const addMovie = (newMovie) => {
-    // We cannot mutate - the actual state (it is always immutable)
-    // movies.push(newMovie);
-    console.log('Adding the new movie.', newMovie);
-    setMovies((prev) => [...prev, newMovie]);
-  };
 
   const removeMovie = (id) => {
     // we are accessing movies directly
@@ -69,7 +65,7 @@ function App() {
       <MovieList
         movies={movies}
         editMovie={editMovie}
-        removeMovie={removeMovie}
+        fetchMovies={fetchMovies}
       />
     </>
   );

@@ -4,12 +4,15 @@ import { isValidTitle, isValidYear } from '../utils.js';
 function MovieForm({ fetchMovies, editingMovie, updateMovie }) {
   const [title, setTitle] = useState('');
   const [year, setYear] = useState('');
+  const [genre, setGenre] = useState('');
 
   // add state that will control the validity of the inputs
   const [validTitle, setValidTitle] = useState(false);
   const [validYear, setValidYear] = useState(false);
-  
-  const USER_ID = 7;
+  const [validGenre, setValidGenre] = useState(false);
+
+
+  const USER_ID = import.meta.env.VITE_USER_ID;
 
   // we will use the useEffect hook to trigger an action when the editingMovie state changes
   useEffect(() => {
@@ -31,6 +34,12 @@ function MovieForm({ fetchMovies, editingMovie, updateMovie }) {
     setValidTitle(isValidTitle(value));
   };
 
+  const handleGenreInput = (e) => {
+    const value = e.target.value;
+    setGenre(value);
+    setValidGenre(isValidTitle(value));
+  };
+
   const handleYearInput = (e) => {
     const value = e.target.value;
     setYear(value);
@@ -47,20 +56,11 @@ function MovieForm({ fetchMovies, editingMovie, updateMovie }) {
       return;
     }
 
-    `
-    {
-      "title": title,
-      "genre": "Uknown",
-      "release_year": year,
-      "user_id": USER_ID 
-    }
-    `
-
     const movieData = {
       user_id: USER_ID,
       title: title,
       release_year: year,
-      genre: "N/A"
+      genre: genre,
     };
 
     // if (editingMovie) {
@@ -74,37 +74,36 @@ function MovieForm({ fetchMovies, editingMovie, updateMovie }) {
     try {
       const options = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(movieData)
-      }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(movieData),
+      };
       const response = await fetch('/api/movies', options);
-      
-      if (!response.ok){
+
+      if (!response.ok) {
         throw new Error('Error: ' + response.status);
       }
 
       fetchMovies();
-
-    } catch (e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-
-
 
     // Reset the state
     setTitle('');
     setYear('');
+    setGenre('');
     // Reset the state of input validations
     setValidYear(false);
     setValidTitle(false);
+    setValidGenre(false);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="z-1 p-3 mt-5 border border-2 rounded-2 d-xl-flex gap-1 col-lg-4 col-md-6 col-11 neon-shadow"
+      className="z-1 p-3 mt-5 border border-2 rounded-2 d-xl-flex gap-1 col-lg-6 col-md-11 col-11 neon-shadow"
     >
-      <div className="col-xl-7 col-12 mb-1">
+      <div className="col-xl-4 col-12 mb-1">
         <div className="form-floating">
           <input
             onChange={handleTitleInput}
@@ -115,6 +114,19 @@ function MovieForm({ fetchMovies, editingMovie, updateMovie }) {
             value={title}
           />
           <label htmlFor="movie-title">Movie Title</label>
+        </div>
+      </div>
+      <div className="col-xl-3 col-12 mb-1">
+        <div className="form-floating">
+          <input
+            onChange={handleGenreInput}
+            type="text"
+            className={`form-control ${validGenre ? '' : 'is-invalid'}`}
+            id="movie-title"
+            placeholder="Movie Title"
+            value={genre}
+          />
+          <label htmlFor="movie-title">Movie Genre</label>
         </div>
       </div>
       <div className="col-xl-3 col-12 mb-1">
